@@ -878,7 +878,7 @@ itemAttrTypes stringToItemAttribute(const std::string& str)
 		return ITEM_ATTRIBUTE_PLURALNAME;
 	} else if (str == "weight") {
 		return ITEM_ATTRIBUTE_WEIGHT;
-	} else if (str == "attack") {
+	} else if (str == "pokename") {
 		return ITEM_ATTRIBUTE_ATTACK;
 	} else if (str == "defense") {
 		return ITEM_ATTRIBUTE_DEFENSE;

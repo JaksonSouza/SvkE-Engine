@@ -32,6 +32,7 @@
 #include "databasemanager.h"
 #include "scheduler.h"
 #include "databasetasks.h"
+#include "pokemons.h"
 
 DatabaseTasks g_databaseTasks;
 Dispatcher g_dispatcher;
@@ -42,6 +43,7 @@ IPList serverIPs;
 Game g_game;
 ConfigManager g_config;
 Monsters g_monsters;
+Pokemons g_pokemons;
 Vocations g_vocations;
 RSA g_RSA;
 
@@ -197,6 +199,12 @@ void mainLoader(int, char*[], ServiceManager* services)
 	std::cout << ">> Loading monsters" << std::endl;
 	if (!g_monsters.loadFromXml()) {
 		startupErrorMessage("Unable to load monsters!");
+		return;
+	}
+
+	std::cout << ">> Loading pokemons" << std::endl;
+	if (!g_pokemons.loadPokemons()) {
+		startupErrorMessage("Unable to load pokemons!");
 		return;
 	}
 

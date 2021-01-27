@@ -35,6 +35,7 @@
 #include "monster.h"
 #include "scheduler.h"
 #include "databasetasks.h"
+#include "pokemons.h"
 
 extern Chat* g_chat;
 extern Game g_game;
@@ -42,6 +43,7 @@ extern Monsters g_monsters;
 extern ConfigManager g_config;
 extern Vocations g_vocations;
 extern Spells* g_spells;
+extern Pokemons g_pokemons;
 
 ScriptEnvironment::DBResultMap ScriptEnvironment::tempResults;
 uint32_t ScriptEnvironment::lastResultId = 0;
@@ -2195,6 +2197,7 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Player", "getContainerIndex", LuaScriptInterface::luaPlayerGetContainerIndex);
 
 	registerMethod("Player", "hasSecureMode", LuaScriptInterface::luaPlayerHasSecureMode);
+	registerMethod("Player", "pokemonGo", LuaScriptInterface::luaPlayerPokemonGo);
 
 	// Monster
 	registerClass("Monster", "Creature", LuaScriptInterface::luaMonsterCreate);
@@ -9186,6 +9189,34 @@ int LuaScriptInterface::luaPlayerHasSecureMode(lua_State* L)
 	if (player) {
 		pushBoolean(L, player->hasSecureMode());
 	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerPokemonGo(lua_State* L)
+{
+	//player:pokemonGo(monsterName)
+	Player* player = getUserdata<Player>(L, 1);
+	Monster* monster = Monster::createMonster(getString(L, 2));
+
+	if (!monster) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	const PokemonType* pokemonType = g_pokemons.getPokemonType("bulbasaur");
+    std::cout << pokemonType->level << std::endl;
+
+	const Position& position = player->getPosition();
+
+	bool extended = getBoolean(L, 3, false);
+	bool force = getBoolean(L, 4, false);
+	if (g_game.placeCreature(monster, position, extended, force)) {
+		pushUserdata<Monster>(L, monster);
+		setMetatable(L, -1, "Monster");
+	} else {
+		delete monster;
 		lua_pushnil(L);
 	}
 	return 1;

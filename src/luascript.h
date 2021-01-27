@@ -944,6 +944,7 @@ class LuaScriptInterface
 		static int luaPlayerGetContainerIndex(lua_State* L);
 
 		static int luaPlayerHasSecureMode(lua_State* L);
+		static int luaPlayerPokemonGo(lua_State* L);
 
 		// Monster
 		static int luaMonsterCreate(lua_State* L);

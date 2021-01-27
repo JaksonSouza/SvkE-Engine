@@ -209,6 +209,7 @@ bool MonsterType::createLootContainer(Container* parent, const LootBlock& lootbl
 
 bool Monsters::loadFromXml(bool reloading /*= false*/)
 {
+	//voltar
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file("data/monster/monsters.xml");
 	if (!result) {
@@ -673,7 +674,7 @@ bool Monsters::loadMonster(const std::string& file, const std::string& monsterNa
 {
 	MonsterType* mType = nullptr;
 	bool new_mType = true;
-
+//voltar
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(file.c_str());
 	if (!result) {
