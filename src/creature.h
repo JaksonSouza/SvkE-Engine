@@ -284,8 +284,13 @@ class Creature : virtual public Thing
 		                             bool checkDefense = false, bool checkArmor = false, bool field = false);
 
 		void setMaster(Creature* creature) {
+			if (creature) {
+				incrementReferenceCounter();
+				creature->summons.push_back(this);
+			}
 			master = creature;
 		}
+
 		bool isSummon() const {
 			return master != nullptr;
 		}
